@@ -27,7 +27,7 @@ jobs:
       - name: Printing variables
         run: |
           echo "My application is ${{ env.APP_NAME }}"
-          echo ""My deploying package name ${{ env.PACKAGE_NAME }}
+          echo "My deploying package name ${{ env.PACKAGE_NAME }}"
           
       - name: Print environment variables
         run: |
@@ -61,3 +61,6 @@ jobs:
         
       - name: Let's test some packages if they are here 2
         run: which zip
+        
+      - name: Let's test some packages if they are here 3
+        run: docker --version

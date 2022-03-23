@@ -12,6 +12,7 @@ on:
 jobs:
   Learning-tests:
     runs-on: ubuntu-latest
+    needs: [Teasting-commands]
     steps:
       - name: Run first job's command
         run: echo "Hello, world from learning-test!"

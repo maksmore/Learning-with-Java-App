@@ -23,8 +23,8 @@ jobs:
       - name: Printing variables
         run: |
           echo "My application is ${{ env.APP_NAME }}"
-          echo ""My deploying package name ${{ env.PACKAGE_NAME }}
-          
+          echo ""My deploying package name ${{ env.PACKAGE_NAME }}   
+      
   Teasting-commands:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +34,18 @@ jobs:
         run: |
           echo "Hello, world from testing-commands!"
           echo "Second parallel command."
+      
+      - name: Listing runner's directory before a/c@v2
+        run: ls -la
+        
+      - name: Git clone my repo
+        uses: actions/checkout@v2
+        
+      - name: Listing runner's directory after a/c@v2
+        run: ls -la
+        
+      - name: Let's test some packages if they are here 1
+        run: aws --version
+        
+      - name: Let's test some packages if they are here 2
+        run: zip

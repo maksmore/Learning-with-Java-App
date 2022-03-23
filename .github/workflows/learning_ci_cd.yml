@@ -1,7 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
 name: My-Github-Actions-Learning
-
+env:
+  APP_NAME    : "MyAppName"
+  PACKAGE_NAME: "My_App_Deploy_File-${{ github.sha }}"
+  
 on:
   push:
     branches: [ master ]
@@ -16,10 +19,16 @@ jobs:
     steps:
       - name: Run first job's command
         run: echo "Hello, world from learning-test!"
-  
+      
+      - name: Printing variables
+        run: |
+          echo "My application is ${{ env.APP_NAME }}"
+          echo ""My deploying package name ${{ env.PACKAGE_NAME }}
+          
   Teasting-commands:
     runs-on: ubuntu-latest
     steps:
+      
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |

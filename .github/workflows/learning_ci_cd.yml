@@ -15,7 +15,11 @@ on:
 jobs:
   Learning-tests:
     runs-on: ubuntu-latest
-    needs: [Teasting-commands]
+    needs: [Testing-commands]
+    env:
+      VAR_1: "Job Level 1 Varible"
+      VAR_2: "Job Level 2 Varible"
+    
     steps:
       - name: Run first job's command
         run: echo "Hello, world from learning-test!"
@@ -23,9 +27,17 @@ jobs:
       - name: Printing variables
         run: |
           echo "My application is ${{ env.APP_NAME }}"
-          echo ""My deploying package name ${{ env.PACKAGE_NAME }}   
+          echo ""My deploying package name ${{ env.PACKAGE_NAME }}
+          
+      - name: Print environment variables
+        run: |
+          echo "Var 1 = ${{ env.VAR_1 }}"
+          echo "Var 2 = ${{ env.VAR_2 }}"
+          echo "Var 3 = $LOCAL_VAR"
+        env:
+          LOCAL_VAR: "Super local env VAR"
       
-  Teasting-commands:
+  Testing-commands:
     runs-on: ubuntu-latest
     steps:
       
@@ -48,4 +60,4 @@ jobs:
         run: aws --version
         
       - name: Let's test some packages if they are here 2
-        run: zip
+        run: which zip

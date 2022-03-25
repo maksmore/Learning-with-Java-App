@@ -4,7 +4,6 @@ name: My-Github-Actions-Learning
 env:
   APP_NAME    : "MyAppName"
   PACKAGE_NAME: "My_App_Deploy_File-${{ github.sha }}"
-  
 on:
   push:
     branches: [ master ]

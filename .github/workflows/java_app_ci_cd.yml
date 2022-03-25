@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Java CI with Maven
 env:
   AWS_DEFAULT_REGION: "eu-west-1"
 on:
@@ -23,10 +23,9 @@ jobs:
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
         arguments: build
-
-    - name: Configure my AWS Credentials
-    - uses: actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region            : ${{ env.AWS_DEFAULT_REGION }}
+    # - name: Configure my AWS Credentials
+    # - uses: actions/configure-aws-credentials@v2
+    #   with:
+    #     aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region            : ${{ env.AWS_DEFAULT_REGION }}

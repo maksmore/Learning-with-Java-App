@@ -9,7 +9,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-    paths: [ "env.${{ WORKING_DIRECTORY }}/*" ] 
+    paths: [ "./it-specialty/*" ] 
 
 jobs:
 

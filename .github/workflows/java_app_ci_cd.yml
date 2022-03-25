@@ -2,44 +2,131 @@ name: Docker-Image-CI-CD-to-AWS-ECR
 env:
   AWS_REGION  : "eu-west-1"
   APP_VERSION :  "v0.0.1"
+  WORKING_DIRECTORY: ./it-specialty
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
+    paths: [ "./it-specialty/*" ]
 
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag diploma
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-  cd-part:
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    steps:
-    - name: Configure my AWS Credentials
-    - uses: aws-actions/configure-aws-credentials@v2
+    - name: Build and export
+      uses: docker/build-push-action@v2
       with:
-        aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region            : ${{ env.AWS_REGION }}
+        context: ./it-specialty
+        tags: diploma:${{ env.APP_VERSION }}
+        outputs: type=docker,dest=/tmp/diploma.tar
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: diploma
+        path: /tmp/diploma.tar
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+        POSTGRES_USER:     ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
+        SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Testing
+        run: docker compose up -d
+
+      - name: Port testing
+        run: |
+          sleep 15
+          telnet localhost 8080 &
+          echo "The connection is established!"
       
-    - name: Authentication Docker Client to AWS ECR
-      run: |
-        aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
-        docker login --username AWS \
-        --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+      - name: First REST API with cURL Testing
+        uses: indiesdev/curl@v1.1
+        id: api
+        with:
+          url: http://localhost:8080/api/v1/specialty
+          method: "POST"
+          accept: 200,201,204
+          headers: '{ "Content-Type": "application/json" }'
+          body: '{ "name": "maintenance" }'
+          timeout: 60000
+          log-response: true
+      
+      - name: Second REST API with cURL Testing
+        uses: indiesdev/curl@v1.1
+        id: api2
+        with:
+          url: http://localhost:8080/api/v1/specialty
+          method: "POST"
+          accept: 200,201,204
+          headers: '{ "Content-Type": "application/json" }'
+          body: '{ "name": "developer" }'
+          timeout: 60000
+          log-response: true
+      
+      - name: "Use response"
+        run: echo ${{ steps.api.outputs.response }}
+
+      - name: Serviceability Testing With Code Response
+        run: ./serviceability_script.sh
+
+  
+  publish:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: diploma
+          path: /tmp
+      
+      - name: Load image
+        run: |
+          docker load --input /tmp/diploma.tar
+          docker image ls -a
+
+      - name: Configure my AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region            : ${{ env.AWS_REGION }}
+      
+      - name: Authentication Docker Client to AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS \
+          --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
         
-    - name: Push to AWS ECR
-      run: |
-        docker tag diploma:${{ env.APP_VERSION }} \
-        ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
+      - name: Push to AWS ECR
+        run: |
+          docker tag diploma:${{ env.APP_VERSION }} \
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}

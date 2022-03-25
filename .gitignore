@@ -1,5 +1,6 @@
 .DS_Store
 HELP.md
+.env
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -32,3 +33,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#  Local .terraform directories
+**/.terraform/*
+**/.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+**/.idea
+**/*.iml
+
+**/.build-harness
+**/build-harness

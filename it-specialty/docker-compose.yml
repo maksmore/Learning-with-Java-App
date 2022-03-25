@@ -13,8 +13,8 @@ services:
     container_name: java-app
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       - appnetwork
@@ -25,9 +25,9 @@ services:
     expose:
       - 5432
     environment:
-      - POSTGRES_DATABASE=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - container-volume:/var/lib/postgres/data
       - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql

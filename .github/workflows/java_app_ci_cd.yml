@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build ./it-specialty --tag diploma:${{ APP_VERSION }}
+      run: docker build ./it-specialty --tag diploma:${{ env.APP_VERSION }}
 
   cd-part:
     runs-on: ubuntu-latest

@@ -18,23 +18,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: |
-        ls -la
-        echo "Checking Files in the it-specialty Directory"
-        ls -la ./it-specialty/
-        docker build ./it-specialty --tag diploma
+      run: docker build ./it-specialty --tag diploma:${{ APP_VERSION }}
 
-  # cd-part:
-  #   runs-on: ubuntu-latest
-  #   needs: [build]
+  cd-part:
+    runs-on: ubuntu-latest
+    needs: [build]
 
-  #   steps:
-  #   - name: Configure my AWS Credentials
-  #   - uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #       aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #       aws-region            : ${{ env.AWS_REGION }}
+    steps:
+    - name: Configure my AWS Credentials
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region            : ${{ env.AWS_REGION }}
       
   #   - name: Authentication Docker Client to AWS ECR
   #     run: |

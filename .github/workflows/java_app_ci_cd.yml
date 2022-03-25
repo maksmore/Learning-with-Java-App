@@ -20,8 +20,9 @@ jobs:
     - name: Build the Docker image
       run: |
         ls -la
-        ls -la ././it-specialty/ 
-        docker build ./it-specialty/ --file Dockerfile --tag diploma
+        echo "Checking Files in the it-specialty Directory"
+        ls -la ./it-specialty/
+        docker build ./it-specialty --tag diploma
 
   # cd-part:
   #   runs-on: ubuntu-latest

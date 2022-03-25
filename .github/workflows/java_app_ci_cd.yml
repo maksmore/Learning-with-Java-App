@@ -1,6 +1,8 @@
-name: Java CI with Maven
+name: Docker Image CI/CD to AWS ECR
 env:
-  AWS_DEFAULT_REGION: "eu-west-1"
+  AWS_REGION  : "eu-west-1"
+  APP_VERSION :  "v0.0.1"
+
 on:
   push:
     branches: [ master ]
@@ -8,24 +10,35 @@ on:
     branches: [ master ]
 
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag diploma
+
+  cd-part:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Configure my AWS Credentials
+    - uses: actions/configure-aws-credentials@v2
       with:
-        java-version: '11'
-        distribution: 'temurin'
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-      with:
-        arguments: build
-    # - name: Configure my AWS Credentials
-    # - uses: actions/configure-aws-credentials@v2
-    #   with:
-    #     aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region            : ${{ env.AWS_DEFAULT_REGION }}
+        aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region            : ${{ env.AWS_REGION }}
+      
+    - name: Authentication Docker Client to AWS ECR
+      run: |
+        aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+        docker login --username AWS \
+        --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        
+    - name: Push to AWS ECR
+      run: |
+        docker tag diploma:${{ env.APP_VERSION }} \
+        ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}

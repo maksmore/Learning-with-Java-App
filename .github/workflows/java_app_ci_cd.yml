@@ -42,5 +42,5 @@ jobs:
     - name: Push to AWS ECR
       run: |
         docker tag diploma:${{ env.APP_VERSION }} \
-        ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
+        ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}

@@ -18,9 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: |
-        ls -la
-        docker build . --file Dockerfile --tag diploma
+      run: docker build ./it-specialty --file Dockerfile --tag diploma
 
   # cd-part:
   #   runs-on: ubuntu-latest

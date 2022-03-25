@@ -2,6 +2,7 @@ name: Docker-Image-CI-CD-to-AWS-ECR
 env:
   AWS_REGION  : "eu-west-1"
   APP_VERSION :  "v0.0.1"
+  WORKING_DIRECTORY: ./it-specialty
 
 on:
   push:
@@ -13,19 +14,30 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ WORKING_DIRECTORY }}
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build ./it-specialty --tag diploma:${{ env.APP_VERSION }}
+      run: |
+        docker-compose up
+      # docker build ./it-specialty --tag diploma:${{ env.APP_VERSION }}
 
   cd-part:
     runs-on: ubuntu-latest
     needs: [build]
+    defaults:
+      run:
+        working-directory: ${{ WORKING_DIRECTORY }}
 
     steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --tag diploma:${{ env.APP_VERSION }}
+    
     - name: Configure my AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:

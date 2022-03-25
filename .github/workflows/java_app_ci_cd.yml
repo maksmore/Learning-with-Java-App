@@ -33,14 +33,14 @@ jobs:
         aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region            : ${{ env.AWS_REGION }}
       
-  #   - name: Authentication Docker Client to AWS ECR
-  #     run: |
-  #       aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
-  #       docker login --username AWS \
-  #       --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+    - name: Authentication Docker Client to AWS ECR
+      run: |
+        aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+        docker login --username AWS \
+        --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
         
-  #   - name: Push to AWS ECR
-  #     run: |
-  #       docker tag diploma:${{ env.APP_VERSION }} \
-  #       ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
-  #       docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
+    - name: Push to AWS ECR
+      run: |
+        docker tag diploma:${{ env.APP_VERSION }} \
+        ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ APP_VERSION }}

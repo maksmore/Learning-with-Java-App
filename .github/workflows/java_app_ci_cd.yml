@@ -1,13 +1,13 @@
 name: Docker-Image-CI-CD-to-AWS-ECR
 env:
   AWS_REGION  : "eu-west-1"
-  APP_VERSION :  "v0.0.3"
+  APP_VERSION :  "v0.0.2"
   WORKING_DIRECTORY: ./it-specialty
 
 on:
   push:
     branches: [ master ]
-    paths: [ "./it-specialty/*" ]
+    # paths: [ "./it-specialty/*" ]
   pull_request:
     branches: [ master ]
 

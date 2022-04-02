@@ -1,12 +1,10 @@
 name: Docker-Image-CI-CD-to-AWS-ECR
 env:
   AWS_REGION  : "eu-west-1"
-  APP_VERSION :  "v0.0.2"
+  APP_VERSION :  "v0.0.1"
   WORKING_DIRECTORY: ./it-specialty
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
     paths: [ "./it-specialty/*" ]
@@ -41,7 +39,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    # needs: build
     env:
         POSTGRES_USER:     ${{ secrets.POSTGRES_USER }}
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -87,7 +84,6 @@ jobs:
           headers: '{ "Content-Type": "application/json" }'
           body: '{ "name": "developer" }'
           timeout: 60000
-          is_debug: true
           log-response: true
       
       - name: "Use response"

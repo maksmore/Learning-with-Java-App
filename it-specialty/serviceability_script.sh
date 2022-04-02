@@ -7,6 +7,7 @@ CODE=$(curl -s --output /dev/null \
 -d '{"name": "maintenance"}' \
 http://localhost:8080/api/v1/specialty)
 
+echo "$CODE"
 if [[ "$CODE" != "200" ]]
 then
     echo "FAILURE HTTP RETURN CODE!"

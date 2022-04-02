@@ -25,9 +25,9 @@ services:
     expose:
       - 5432
     environment:
-      - POSTGRES_DATABASE=${{ secret.POSTGRES_DATABASE }}
-      - POSTGRES_USER=${{ secret.POSTGRES_USER }}
-      - POSTGRES_PASSWORD=${{ secret.POSTGRES_PASSWORD }}
+      - POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
     volumes:
       - container-volume:/var/lib/postgres/data
       - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql

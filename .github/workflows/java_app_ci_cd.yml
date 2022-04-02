@@ -63,9 +63,12 @@ jobs:
         run: |
           telnet localhost 8080 &
           echo "The connection is established!"
+      
+      - name: Listing files
+        run: pwd && ls -la
 
       - name: Servicability Testing
-        run: ./servisability_script.sh
+        run: ./it-specialty/servisability_script.sh
   
   # publish:
   #   runs-on: ubuntu-latest

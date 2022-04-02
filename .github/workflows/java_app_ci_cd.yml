@@ -71,8 +71,11 @@ jobs:
           url: http://localhost:8080/api/v1/specialty
           method: "POST"
           accept: 200,201,204
+          headers: { "Content-Type": "application/json" }
           body: '{ "name": "maintenance" }'
           log-response: true
+          timeout: 60000
+          is_debug: true
           retries: 3
       
       - name: "Call API 2"
@@ -82,9 +85,10 @@ jobs:
           url: http://localhost:8080/api/v1/specialty
           method: "POST"
           accept: 200,201,204
-          # you can use multiline format to constrct json data object, the content should be yml format.
-          # this format apply to inputs: body, headers and params
+          headers: { "Content-Type": "application/json" }
           body: '{ "name": "developer" }'
+          timeout: 60000
+          is_debug: true
           log-response: true
       
       - name: "Use response"

@@ -5,8 +5,8 @@ env:
   WORKING_DIRECTORY: ./it-specialty
 
 on:
-  # push:
-    # branches: [ master ]
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
     paths: [ "./it-specialty/*" ]

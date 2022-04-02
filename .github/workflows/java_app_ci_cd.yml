@@ -56,6 +56,8 @@ jobs:
           POSTGRES_USER:     ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Port testing
         run: |

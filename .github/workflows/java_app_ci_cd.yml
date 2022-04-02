@@ -64,11 +64,30 @@ jobs:
           telnet localhost 8080 &
           echo "The connection is established!"
       
-      - name: Installing curl
-        run: apt update && apt install -y curl
-
-      - name: Servicability Testing
-        run: ./serviceability_script.sh
+      - name: "Call API 1"
+        uses: indiesdev/curl@v1.1
+        id: api
+        with:
+          url: http://localhost:8080/api/v1/specialty
+          method: "POST"
+          accept: 201
+          body: '{ "name": "maintenance" }'
+          log-response: true
+      
+      - name: "Call API 2"
+        uses: indiesdev/curl@v1.1
+        id: api2
+        with:
+          url: http://localhost:8080/api/v1/specialty
+          method: "POST"
+          accept: 201
+          # you can use multiline format to constrct json data object, the content should be yml format.
+          # this format apply to inputs: body, headers and params
+          body: '{ "name": "developer" }'
+          log-response: true
+      
+      - name: "Use response"
+        run: echo ${{ steps.api.outputs.response }}
   
   # publish:
   #   runs-on: ubuntu-latest

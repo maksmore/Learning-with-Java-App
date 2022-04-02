@@ -68,7 +68,7 @@ jobs:
         run: pwd && ls -la
 
       - name: Servicability Testing
-        run: ./it-specialty/servisability_script.sh
+        run: .serviceability_script.sh
   
   # publish:
   #   runs-on: ubuntu-latest

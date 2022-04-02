@@ -64,8 +64,8 @@ jobs:
           telnet localhost 8080 &
           echo "The connection is established!"
       
-      - name: Listing files
-        run: pwd && ls -la
+      - name: Installing curl
+        run: apt update && apt install -y curl
 
       - name: Servicability Testing
         run: ./serviceability_script.sh

@@ -64,6 +64,9 @@ jobs:
           telnet localhost 8080 &
           echo "The connection is established!"
       
+      - name: Curl testing
+        run: ./serviceability_script.sh
+      
       - name: "Call API 1"
         uses: indiesdev/curl@v1.1
         id: api
@@ -72,10 +75,10 @@ jobs:
           method: "POST"
           accept: 200,201,204
           headers: '{ "Content-Type": "application/json" }'
-          body: '{ "name": "maintenance" }'
-          log-response: true
+          params: '{ "name": "maintenance" }'
+          # body: '{ "name": "maintenance" }'
           timeout: 60000
-          is_debug: true
+          log-response: true
           retries: 3
       
       - name: "Call API 2"

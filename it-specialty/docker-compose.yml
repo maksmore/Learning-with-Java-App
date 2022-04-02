@@ -13,8 +13,8 @@ services:
     container_name: java-app
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=${{ POSTGRES_USER }}
-      - SPRING_DATASOURCE_PASSWORD=${{ POSTGRES_PASSWORD }}
+      - SPRING_DATASOURCE_USERNAME=${{ env.POSTGRES_USER }}
+      - SPRING_DATASOURCE_PASSWORD=${{ env.POSTGRES_PASSWORD }}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       - appnetwork

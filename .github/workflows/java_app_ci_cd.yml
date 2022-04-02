@@ -32,7 +32,7 @@ jobs:
     - name: Build and export
       uses: docker/build-push-action@v2
       with:
-        context: ./
+        context: ./it-specialty
         tags: diploma:${{ env.APP_VERSION }}
         outputs: type=docker,dest=/tmp/diploma.tar
     

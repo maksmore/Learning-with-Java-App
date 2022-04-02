@@ -47,7 +47,7 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: ${{ env. env.WORKING_DIRECTORY }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
       - name: Set up Docker Buildx

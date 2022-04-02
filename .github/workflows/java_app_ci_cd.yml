@@ -64,8 +64,8 @@ jobs:
           telnet localhost 8080 &
           echo "The connection is established!"
       
-      - name: Curl test
-        run: curl -s -H "Content-Type":" application/json" -X POST -d '{"name"':' "maintenance"}' http://localhost:8080/api/v1/specialty
+      # - name: Curl test
+      #   run: curl -s -H "Content-Type":" application/json" -X POST -d '{"name"':' "maintenance"}' http://localhost:8080/api/v1/specialty
       
       - name: curl
         uses: wei/curl@v1

@@ -13,8 +13,8 @@ env:
 on:
   pull_request:
     branches: [ master ]
-  # push:
-  #   branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
   deploy:

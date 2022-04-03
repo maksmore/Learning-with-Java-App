@@ -5,10 +5,10 @@ WORKDIR /usr/src/myapp
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 COPY src ./src
-RUN ./mvnw install -DskipTests
+RUN ./mvnw clean install -DskipTests
 
 FROM alpine:3.15.0 as packager
-RUN apk --no-cache add openjdk11-jdk openjdk11-jmods && \
+RUN apk --no-cache add openjdk11=11.0.14_p9-r0 && \
     rm -rf /etc/apk/cache
 ENV JAVA_MINIMAL="/opt/java-minimal"
 RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
@@ -22,6 +22,7 @@ RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
 FROM alpine:3.15.0
 ENV JAVA_HOME=/opt/java-minimal
 ENV PATH="$PATH:$JAVA_HOME/bin"
+WORKDIR /usr/src/myapp
 COPY --from=packager "$JAVA_HOME" "$JAVA_HOME"
 COPY --from=builder /usr/src/myapp/target/it-specialty-0.0.1-SNAPSHOT.jar app.jar
 CMD [ "java","-Dserver.port=8083", "-jar", "app.jar" ]

@@ -5,6 +5,5 @@ spring:
   datasource:
     url: jdbc:postgresql://prod-rds.cizgbl62pkt2.eu-west-1.rds.amazonaws.com:5432/postgres
     driver-class-name: org.postgresql.Driver
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-
+    username: postgres
+    password: password

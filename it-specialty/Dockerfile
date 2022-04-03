@@ -5,7 +5,7 @@ WORKDIR /usr/src/myapp
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 COPY src ./src
-RUN ./mvnw install -DskipTests
+RUN ./mvnw clean install -DskipTests
 
 FROM alpine:3.15.0 as packager
 RUN apk --no-cache add openjdk11-jdk openjdk11-jmods && \

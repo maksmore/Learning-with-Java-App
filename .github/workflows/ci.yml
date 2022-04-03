@@ -12,18 +12,14 @@ on:
     # paths: [ "./*" ]
 
 jobs:
-
-  build:
+  
+  linter:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-      # with:
-      #   fetch-depth: 0
+      with:
+        fetch-depth: 0
     
     - name: Super Linter
       uses: github/super-linter/slim@v4
@@ -52,8 +48,15 @@ jobs:
         VALIDATE_TERRAGRUNT: true
         VALIDATE_YAML: true
 
-    # - name: Checkout repository
-    #   uses: actions/checkout@v2
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
     
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1

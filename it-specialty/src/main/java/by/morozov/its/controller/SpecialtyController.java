@@ -18,7 +18,7 @@ public class SpecialtyController {
     public Specialty getSpecialtyByName(@RequestBody SpecialtyRequestDto request) {
         return specialtyService.getSpecialtyByName(request.getName());
     }
-    
+
     @GetMapping
     public String getInfo() {
         return INFO;

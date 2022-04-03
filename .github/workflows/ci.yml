@@ -10,6 +10,8 @@ on:
   push:
     branches: [ '*' ]
     paths: [ 'it-specialty/**' ]
+  pull_request:
+    branches: [ '*' ]
 
 jobs:
   

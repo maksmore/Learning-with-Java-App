@@ -9,7 +9,7 @@ env:
 on:
   push:
     branches: [ '*' ]
-    # paths: [ "./it-specialty/*" ]
+    paths: [ "./*" ]
 
 jobs:
 
@@ -20,17 +20,46 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
-    - name: Checkout repository
+    - name: Checkout Code
       uses: actions/checkout@v2
+      # with:
+      #   fetch-depth: 0
+    
+    - name: Super Linter
+      uses: github/super-linter/slim@v4
+      env:
+        # Main settings
+        DEFAULT_BRANCH: master
+        VALIDATE_ALL_CODEBASE: false
+        FILTER_REGEX_EXCLUDE: (\.github.*|.*inventory.ya?ml|.*docker-compose.ya?ml)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Tools
+        ANSIBLE_DIRECTORY: .
+        VALIDATE_ANSIBLE: true
+        VALIDATE_BASH: true
+        VALIDATE_BASH_EXEC: true
+        VALIDATE_DOCKERFILE: true
+        VALIDATE_DOCKERFILE_HADOLINT: true
+        VALIDATE_ENV: true
+        VALIDATE_GITHUB_ACTIONS: true
+        VALIDATE_MARKDOWN: true
+        VALIDATE_PYTHON: true
+        VALIDATE_PYTHON_FLAKE8: true
+        VALIDATE_PYTHON_ISORT: true
+        VALIDATE_SHELL_SHFMT: true
+        VALIDATE_TERRAFORM_TFLINT: true
+        VALIDATE_TERRAFORM_TERRASCAN: true
+        VALIDATE_TERRAGRUNT: true
+        VALIDATE_YAML: true
+
+    # - name: Checkout repository
+    #   uses: actions/checkout@v2
     
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
     - name: Build and export
       uses: docker/build-push-action@v2
-      env: 
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER}}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       id:   build-image
       with:
         context: ./it-specialty

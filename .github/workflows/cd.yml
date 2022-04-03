@@ -6,7 +6,7 @@ env:
   IMAGE_NAME:          "diploma"
   ECR_REPOSITORY:      "diploma"
   ECS_SERVICE:         "diploma"
-  ECS_CLUSTER:         "diploma"
+  ECS_CLUSTER:         "ECS-Regular-Cluster"
   ECS_TASK_DEFINITION: "diploma"
   CONTAINER_NAME:      "diploma-container"
 

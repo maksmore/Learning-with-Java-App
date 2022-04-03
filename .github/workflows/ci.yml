@@ -1,20 +1,56 @@
-name: Docker-Image-CI-CD-to-AWS-ECR
+name: Docker-Image-CI
+
 env:
   AWS_REGION  : "eu-west-1"
-  APP_VERSION :  "v0.0.2"
+  IMAGE_NAME  : "diploma"
+  APP_VERSION :  "v0.0.1"
   WORKING_DIRECTORY: ./it-specialty
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-    paths: [ "./it-specialty/*" ]
+    branches: [ '*' ]
+    # paths: [ "./*" ]
 
 jobs:
+  
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Super Linter
+      uses: github/super-linter/slim@v4
+      env:
+        # Main settings
+        DEFAULT_BRANCH: master
+        VALIDATE_ALL_CODEBASE: false
+        FILTER_REGEX_EXCLUDE: (\.github.*|.*inventory.ya?ml|.*docker-compose.ya?ml)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Tools
+        ANSIBLE_DIRECTORY: .
+        VALIDATE_ANSIBLE: true
+        VALIDATE_BASH: true
+        VALIDATE_BASH_EXEC: true
+        VALIDATE_DOCKERFILE: true
+        VALIDATE_DOCKERFILE_HADOLINT: true
+        VALIDATE_ENV: true
+        VALIDATE_GITHUB_ACTIONS: true
+        VALIDATE_MARKDOWN: true
+        VALIDATE_PYTHON: true
+        VALIDATE_PYTHON_FLAKE8: true
+        VALIDATE_PYTHON_ISORT: true
+        VALIDATE_SHELL_SHFMT: true
+        VALIDATE_TERRAFORM_TFLINT: true
+        VALIDATE_TERRAFORM_TERRASCAN: true
+        VALIDATE_TERRAGRUNT: true
+        VALIDATE_YAML: true
 
   build:
     runs-on: ubuntu-latest
+    needs: linter
     defaults:
       run:
         working-directory: ${{ env.WORKING_DIRECTORY }}
@@ -28,20 +64,20 @@ jobs:
 
     - name: Build and export
       uses: docker/build-push-action@v2
+      id:   build-image
       with:
         context: ./it-specialty
-        tags: diploma:${{ env.APP_VERSION }}
-        outputs: type=docker,dest=/tmp/diploma.tar
+        tags: ${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
     
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: diploma
-        path: /tmp/diploma.tar
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp/${{ env.IMAGE_NAME }}.tar
 
   test:
     runs-on: ubuntu-latest
-    # needs: build
     env:
         POSTGRES_USER:     ${{ secrets.POSTGRES_USER }}
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -87,7 +123,6 @@ jobs:
           headers: '{ "Content-Type": "application/json" }'
           body: '{ "name": "developer" }'
           timeout: 60000
-          is_debug: true
           log-response: true
       
       - name: "Use response"
@@ -108,12 +143,12 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: diploma
+          name: ${{ env.IMAGE_NAME }}
           path: /tmp
       
       - name: Load image
         run: |
-          docker load --input /tmp/diploma.tar
+          docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
           docker image ls -a
 
       - name: Configure my AWS Credentials
@@ -131,6 +166,6 @@ jobs:
         
       - name: Push to AWS ECR
         run: |
-          docker tag diploma:${{ env.APP_VERSION }} \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/diploma:${{ env.APP_VERSION }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} \
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}

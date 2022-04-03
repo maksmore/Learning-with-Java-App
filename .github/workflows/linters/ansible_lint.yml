@@ -1,0 +1,7 @@
+---
+
+parseable: true
+use_default_rules: true
+warn_list:
+  - internal-error
+  - role-name  # Role name {0} does not match ``^[a-z][a-z0-9_]+$`` pattern

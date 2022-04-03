@@ -134,59 +134,59 @@ jobs:
           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
 
----
+# ---
 
-name: Docker-Image-CD
+# name: Docker-Image-CD
 
-env:
-  AWS_REGION:          "eu-west-1"
-  APP_VERSION:         "v0.0.1"                  # set this to your preferred AWS region, e.g. us-west-1
-  IMAGE_NAME:          "diploma"
-  ECR_REPOSITORY:      "diploma"           # set this to your Amazon ECR repository name
-  ECS_SERVICE:         "diploma"                 # set this to your Amazon ECS service name
-  ECS_CLUSTER:         "diploma"                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: "diploma"
-  CONTAINER_NAME:      "diploma-container"
+# env:
+#   AWS_REGION:          "eu-west-1"
+#   APP_VERSION:         "v0.0.1"
+#   IMAGE_NAME:          "diploma"
+#   ECR_REPOSITORY:      "diploma"
+#   ECS_SERVICE:         "diploma"
+#   ECS_CLUSTER:         "diploma"
+#   ECS_TASK_DEFINITION: "diploma"
+#   CONTAINER_NAME:      "diploma-container"
 
-on:
-  pull_request:
-    branches: [ master ]
+# on:
+#   pull_request:
+#     branches: [ master ]
 
-jobs:
-  deploy:
-    name: Deploy to AWS ECS
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     name: Deploy to AWS ECS
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
 
-      - name: Configure my AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region            : ${{ env.AWS_REGION }}
+#       - name: Configure my AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region            : ${{ env.AWS_REGION }}
 
-      - name: Authentication Docker Client to AWS ECR
-        id: login-ecr
-        run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
-          docker login --username AWS \
-          --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+#       - name: Authentication Docker Client to AWS ECR
+#         id: login-ecr
+#         run: |
+#           aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+#           docker login --username AWS \
+#           --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
       
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+#       - name: Fill in the new image ID in the Amazon ECS task definition
+#         id: task-def
+#         uses: aws-actions/amazon-ecs-render-task-definition@v1
+#         with:
+#           task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#           container-name: ${{ env.CONTAINER_NAME }}
+#           image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+#       - name: Deploy Amazon ECS task definition
+#         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#         with:
+#           task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#           service: ${{ env.ECS_SERVICE }}
+#           cluster: ${{ env.ECS_CLUSTER }}
+#           wait-for-service-stability: true

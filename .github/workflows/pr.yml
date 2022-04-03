@@ -1,4 +1,5 @@
 ---
+name: General_Linter
 on:
   pull_request:
     branches:

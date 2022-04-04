@@ -9,7 +9,7 @@ env:
 on:
   push:
     branches: [ '*' ]
-    # paths: [ 'it-specialty/**' ]
+    paths: [ 'it-specialty/**' ]
 
 jobs:
   

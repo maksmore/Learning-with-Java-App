@@ -7,12 +7,10 @@ env:
   WORKING_DIRECTORY: ./it-specialty
 
 on:
-  push:
-    branches: [ '*' ]
-    paths: [ 'it-specialty/**' ]
   pull_request:
     branches: [ master ]
-    
+    paths: [ 'it-specialty/**' ]
+
 jobs:
   
   linter:

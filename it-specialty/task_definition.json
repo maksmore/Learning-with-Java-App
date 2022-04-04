@@ -58,7 +58,7 @@
         }
     ],
     "memory": null,
-    "taskRoleArn": "arn:aws:iam::233817511251:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::233817511251:role/Diploma-execution-task-role",
     "family": "diploma",
     "pidMode": null,
     "requiresCompatibilities": [

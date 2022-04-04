@@ -13,6 +13,7 @@ env:
 on:
   pull_request:
     branches: [ master ]
+    paths: ['it-specialty/**']
 
 jobs:
   deploy:

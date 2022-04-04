@@ -8,8 +8,8 @@ env:
 
 on:
   push:
-    branches: [ '*']
-    paths: [ 'it-specialty/**' ]
+    branches: [ '*' ]
+    # paths: [ 'it-specialty/**' ]
 
 jobs:
   

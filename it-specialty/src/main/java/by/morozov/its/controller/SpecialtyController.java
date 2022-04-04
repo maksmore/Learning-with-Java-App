@@ -13,8 +13,15 @@ public class SpecialtyController {
 
     private final SpecialtyService specialtyService;
 
+    private static final String INFO = "It is my Java application!";
+
     @PostMapping
     public Specialty getSpecialtyByName(@RequestBody SpecialtyRequestDto request) {
         return specialtyService.getSpecialtyByName(request.getName());
+    }
+
+    @GetMapping
+    public String getInfo() {
+        return INFO;
     }
 }

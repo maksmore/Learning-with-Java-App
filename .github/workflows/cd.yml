@@ -12,20 +12,22 @@ env:
 
 on:
   pull_request:
+    types: [closed]
     branches: [ master ]
+    paths: ['it-specialty/**']
 
 jobs:
   deploy:
     name: Deploy to AWS ECS
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout repository
-        if: github.event.pull_request.merged
+        # if: github.event.pull_request.merged == true
         uses: actions/checkout@v3
-        with:
-          ref: master
+        # with:
+        #   ref: master
 
       - name: Configure my AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -40,9 +42,7 @@ jobs:
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
           docker login --username AWS \
           --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
-      
-      # - name: Deploy to AWS ECS
-      #   run: aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment 
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1

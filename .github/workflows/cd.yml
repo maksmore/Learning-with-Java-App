@@ -24,10 +24,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        # if: github.event.pull_request.merged == true
         uses: actions/checkout@v3
-        # with:
-        #   ref: master
 
       - name: Configure my AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -58,3 +55,17 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+      
+      - name: Success Deployment Notification
+        uses: ./
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            The new version of application was successfully deployed to the ${{ env.ECS_SERVICE }} ECS service by ${{ github.actor }}!
+            
+            Repository: ${{ github.repository }}
+            
+            Commit: {{ commit.sha }}
+
+            App version: ${{ env.APP_VERSION }}

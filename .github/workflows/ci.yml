@@ -77,7 +77,7 @@ jobs:
         path: /tmp/${{ env.IMAGE_NAME }}.tar
     
     - name: send message using with
-      uses: 'it-specialty/**'
+      uses: './'
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}

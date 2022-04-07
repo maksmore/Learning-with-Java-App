@@ -34,11 +34,10 @@ jobs:
           aws-region            : ${{ env.AWS_REGION }}
 
       - name: Authentication Docker Client to AWS ECR
-        id: login-ecr
         run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+          aws ecr-public get-login-password --region us-east-1 | \
           docker login --username AWS \
-          --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          --password-stdin public.ecr.aws/j1n7b9p6
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def

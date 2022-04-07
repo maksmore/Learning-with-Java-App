@@ -7,6 +7,7 @@ resource "aws_key_pair" "pub_key" {
 
 
 resource "aws_instance" "db_filling_instance" {
+  #ts:skip=AC-AWS-NS-IN-M-1172 need to skip it
   ami                         = data.aws_ami.ecs.id
   instance_type               = "t2.micro"
   iam_instance_profile        = aws_iam_instance_profile.ecs_agent.name

@@ -1,6 +1,7 @@
 # ----------------------------------- SNS Topic & Subscribsion ----------------------------|
 
 resource "aws_sns_topic" "alarm_topic" {
+  #ts.skip=AWS.AST.DP.MEDIUM.0037 need to skip it
   name            = "Incident_Alert"
   delivery_policy = <<EOF
 {

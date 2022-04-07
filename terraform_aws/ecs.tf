@@ -45,7 +45,6 @@ resource "aws_ecs_task_definition" "app_task_definition" {
 }
 
 resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
-
   family = "db_filling_script"
   container_definitions = jsonencode([
     {

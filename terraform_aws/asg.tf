@@ -1,7 +1,7 @@
 # ------------------------- Launch Configuration & ASG Creation ----------------------------|
 
 resource "aws_launch_configuration" "ecs_launch_config" {
-
+  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
   name                 = "App in ECS"
   image_id             = data.aws_ami.ecs.id
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
@@ -16,6 +16,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 }
 
 resource "aws_autoscaling_policy" "my_scaling" {
+  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
   name                   = "My_scaling_policy"
   scaling_adjustment     = 4
   adjustment_type        = "ChangeInCapacity"
@@ -24,6 +25,7 @@ resource "aws_autoscaling_policy" "my_scaling" {
 }
 
 resource "aws_autoscaling_group" "ecs_asg" {
+  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
   name                 = var.asg_name
   vpc_zone_identifier  = [for subnet in aws_subnet.ec2_subnet : subnet.id]
   launch_configuration = aws_launch_configuration.ecs_launch_config.name

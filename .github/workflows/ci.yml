@@ -1,7 +1,7 @@
 name: Docker-Image-CI
 
 env:
-  AWS_REGION  :      "es-east-1"
+  AWS_REGION  :      "us-east-1"
   IMAGE_NAME  :      "diploma_project"
   APP_VERSION :      "v0.0.1"
   ECR_REPOSITORY:    "diploma_project"

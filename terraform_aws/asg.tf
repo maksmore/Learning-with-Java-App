@@ -34,7 +34,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
 
-  depends_on = [aws_ecs_service.db_filling_script, aws_instance.db_filling_instance]
+  depends_on = [aws_ecs_service.db_filling_script]
 
   dynamic "tag" {
     for_each = {

@@ -38,10 +38,10 @@ resource "aws_ecs_task_definition" "app_task_definition" {
       "networkMode" : "bridge"
     }
   ])
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
-  }
+  # placement_constraints {
+  #   type       = "memberOf"
+  #   expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
+  # }
 }
 
 resource "aws_ecs_task_definition" "db_filling_script_task_definition" {

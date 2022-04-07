@@ -44,9 +44,9 @@ jobs:
         VALIDATE_PYTHON_FLAKE8: true
         VALIDATE_PYTHON_ISORT: true
         VALIDATE_SHELL_SHFMT: true
-        VALIDATE_TERRAFORM_TFLINT: false
-        VALIDATE_TERRAFORM_TERRASCAN: false
-        VALIDATE_TERRAGRUNT: false
+        VALIDATE_TERRAFORM_TFLINT: true
+        VALIDATE_TERRAFORM_TERRASCAN: true
+        VALIDATE_TERRAGRUNT: true
         VALIDATE_YAML: true
 
   build:

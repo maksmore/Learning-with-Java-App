@@ -14,7 +14,6 @@ public class SpecialtyController {
     private final SpecialtyService specialtyService;
     private static final String INFO = "Welcome to Super Java application!";
 
-
     @PostMapping
     public Specialty getSpecialtyByName(@RequestBody SpecialtyRequestDto request) {
         return specialtyService.getSpecialtyByName(request.getName());

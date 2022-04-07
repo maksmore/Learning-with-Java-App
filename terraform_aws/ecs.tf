@@ -19,7 +19,7 @@ resource "aws_ecs_cluster" "db_filling_cluster" {
 }
 
 resource "aws_ecs_task_definition" "app_task_definition" {
-  family = "diploma"
+  family = "diploma_project"
   container_definitions = jsonencode([
     {
       "name" : "diploma-container",
@@ -38,6 +38,10 @@ resource "aws_ecs_task_definition" "app_task_definition" {
       "networkMode" : "bridge"
     }
   ])
+
+  task_role_arn            = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
@@ -83,9 +87,9 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
 }
 
 resource "aws_ecs_service" "diploma" {
-  name                               = "diploma"
+  name                               = "diploma_project"
   cluster                            = aws_ecs_cluster.app_cluster.id
-  task_definition                    = aws_ecs_task_definition.app_task_definition.arn
+  task_definition                    = aws_ecs_task_definition.app_task_definition.id
   force_new_deployment               = true
   desired_count                      = 2
   deployment_maximum_percent         = 200
@@ -105,7 +109,7 @@ resource "aws_ecs_service" "diploma" {
 
 resource "aws_ecs_service" "db_filling_script" {
   name            = "db_filling_script"
-  cluster         = aws_ecs_cluster.db_filling_cluster.id
-  task_definition = aws_ecs_task_definition.db_filling_script_task_definition.arn
+  cluster         = aws_ecs_cluster.app_cluster.id
+  task_definition = aws_ecs_task_definition.db_filling_script_task_definition.id
   desired_count   = 1
 }

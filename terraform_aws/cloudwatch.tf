@@ -1,7 +1,7 @@
 # ----------------- Cloudwatch Email Alarm & Monitoring of Certain Resources ---------------|
 
 resource "aws_cloudwatch_dashboard" "my_dashboard" {
-  dashboard_name = "Common-infrastracture-metrics"
+  dashboard_name = "N_Virginia-infrastracture-metrics"
 
   dashboard_body = <<EOF
 {
@@ -47,7 +47,7 @@ resource "aws_cloudwatch_dashboard" "my_dashboard" {
                 ],
                 "period":300,
                 "stat":"Average",
-                "region":"eu-west-1",
+                "region":"us-east-1",
                 "timezone":"+0300",
                 "title":"${data.aws_instances.first_instance_id.ids[0]} EC2 Instance metrics",
                 "stacked":true,
@@ -117,7 +117,7 @@ resource "aws_cloudwatch_dashboard" "my_dashboard" {
                 ],
                 "period":300,
                 "stat":"Average",
-                "region":"eu-west-1",
+                "region":"us-east-1",
                 "timezone":"+0300",
                 "title":"${data.aws_instances.first_instance_id.ids[1]} EC2 Instance Metrics",
                 "stacked":true,
@@ -199,7 +199,7 @@ resource "aws_cloudwatch_dashboard" "my_dashboard" {
                 ],
                 "period":300,
                 "stat":"Average",
-                "region":"eu-west-1",
+                "region":"us-east-1",
                 "timezone":"+0300",
                 "title":"${data.aws_db_instance.db.engine} DB Instance Metrics",
                 "stacked":true,
@@ -257,7 +257,7 @@ resource "aws_cloudwatch_dashboard" "my_dashboard" {
                 ],
                 "period":300,
                 "stat":"Average",
-                "region":"eu-west-1",
+                "region":"us-east-1",
                 "timezone":"+0300",
                 "title":"${aws_ecs_cluster.app_cluster.name} Metrics",
                 "stacked":true,

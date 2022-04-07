@@ -1,10 +1,10 @@
 name: Docker-Image-CI
 
 env:
-  AWS_REGION  :      "eu-west-1"
-  IMAGE_NAME  :      "diploma"
+  AWS_REGION  :      "es-east-1"
+  IMAGE_NAME  :      "diploma_project"
   APP_VERSION :      "v0.0.1"
-  ECR_REPOSITORY:    "diploma"
+  ECR_REPOSITORY:    "diploma_project"
   WORKING_DIRECTORY: ./it-specialty
 
 on:
@@ -169,15 +169,20 @@ jobs:
       
       - name: Authentication Docker Client to AWS ECR
         run: |
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+
+          aws ecr-public get-login-password --region us-east-1 | \
           docker login --username AWS \
-          --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          --password-stdin public.ecr.aws/j1n7b9p6
+
+          # aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+          # docker login --username AWS \
+          # --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
         
       - name: Push to AWS ECR
         run: |
           docker tag ${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+          public.ecr.aws/j1n7b9p6/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+          docker push public.ecr.aws/j1n7b9p6/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
 
       - name: Send Telegram Message on Push
         uses: appleboy/telegram-action@master

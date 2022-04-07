@@ -1,10 +1,10 @@
 name: Docker-Image-CD
 
 env:
-  AWS_REGION:          "eu-west-1"
+  AWS_REGION:          "us-east-1"
   APP_VERSION:         "v0.0.1"
-  IMAGE_NAME:          "diploma"
-  ECR_REPOSITORY:      "diploma"
+  IMAGE_NAME:          "diploma_project"
+  ECR_REPOSITORY:      "diploma_project"
   ECS_SERVICE:         "diploma"
   ECS_CLUSTER:         "ECS-Regular-Cluster"
   ECS_TASK_DEFINITION: "./it-specialty/task_definition.json"

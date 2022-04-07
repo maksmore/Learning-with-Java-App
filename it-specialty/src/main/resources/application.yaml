@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://prod-rds.cizgbl62pkt2.eu-west-1.rds.amazonaws.com:5432/postgres
+    url: jdbc:postgresql://prod-rds.cs7exdr8bvhm.us-east-1.rds.amazonaws.com:5432/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: password

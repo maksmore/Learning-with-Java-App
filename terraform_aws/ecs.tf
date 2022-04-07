@@ -9,14 +9,14 @@ resource "aws_ecs_cluster" "app_cluster" {
   }
 }
 
-# resource "aws_ecs_cluster" "db_filling_cluster" {
-#   name = "ECS-DB-Filling-Cluster"
+resource "aws_ecs_cluster" "db_filling_cluster" {
+  name = "ECS-DB-Filling-Cluster"
 
-#   tags = {
-#     Name        = "${var.db_filling_cluster}"
-#     Environment = var.app_environment
-#   }
-# }
+  tags = {
+    Name        = "${var.db_filling_cluster}"
+    Environment = var.app_environment
+  }
+}
 
 resource "aws_ecs_task_definition" "app_task_definition" {
   family = "diploma"
@@ -38,14 +38,14 @@ resource "aws_ecs_task_definition" "app_task_definition" {
       "networkMode" : "bridge"
     }
   ])
-  # placement_constraints {
-  #   type       = "memberOf"
-  #   expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
-  # }
+  placement_constraints {
+    type       = "memberOf"
+    expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
+  }
 }
 
 resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
- 
+
   family = "db_filling_script"
   container_definitions = jsonencode([
     {
@@ -54,16 +54,16 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
       "entryPoint" : [],
       "environment" : [
         {
-          "name" : "AWS_ACCESS_KEY_ID", "value" : "${var.aws_access_key_id}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
+          "name" : "AWS_ACCESS_KEY_ID", "value" : "${var.aws_access_key_id}"
         },
         {
-          "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${var.aws_secret_access_key}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
+          "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${var.aws_secret_access_key}"
         },
         {
-          "name" : "AWS_DEFAULT_REGION", "value" : "${var.aws_default_region}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
+          "name" : "AWS_DEFAULT_REGION", "value" : "${var.aws_default_region}"
         },
         {
-          "name" : "PGPASSWORD", "value" : "${var.db_password}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip
+          "name" : "PGPASSWORD", "value" : "${var.db_password}"
         }
       ],
       "essential" : true,
@@ -106,7 +106,7 @@ resource "aws_ecs_service" "diploma" {
 
 resource "aws_ecs_service" "db_filling_script" {
   name            = "db_filling_script"
-  cluster         = aws_ecs_cluster.app_cluster.id
+  cluster         = aws_ecs_cluster.db_filling_cluster.id
   task_definition = aws_ecs_task_definition.db_filling_script_task_definition.arn
   desired_count   = 1
 }

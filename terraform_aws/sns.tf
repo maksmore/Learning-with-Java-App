@@ -1,7 +1,7 @@
 # ----------------------------------- SNS Topic & Subscribsion ----------------------------|
 
 resource "aws_sns_topic" "alarm_topic" {
-  name = "Incident_Alert"
+  name            = "Incident_Alert"
   delivery_policy = <<EOF
 {
   "http": {

@@ -1,6 +1,7 @@
 # ------------------------- Launch Configuration & ASG Creation ----------------------------|
 
 resource "aws_launch_configuration" "ecs_launch_config" {
+
   name                 = "App in ECS"
   image_id             = data.aws_ami.ecs.id
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name

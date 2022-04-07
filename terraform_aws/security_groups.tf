@@ -44,7 +44,7 @@ resource "aws_security_group" "ec2_sg" {
     }
 
     content {
-      from_port       = lookup(ingress.value, "from_port", ingress.key) # 
+      from_port       = lookup(ingress.value, "from_port", ingress.key)
       to_port         = lookup(ingress.value, "to_port", ingress.key)
       protocol        = "tcp"
       cidr_blocks     = lookup(ingress.value, "cidr_blocks", null)

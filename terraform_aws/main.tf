@@ -22,6 +22,7 @@ provider "aws" {}
 
 resource "aws_vpc" "main" {
   #ts.skip=AWS.VPC.Logging.Medium.0470 need to skip
+  #ts.skip=AWS.VPC.Logging.Medium.0470 need to skip
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   tags = {

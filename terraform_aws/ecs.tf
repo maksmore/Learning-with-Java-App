@@ -38,13 +38,14 @@ resource "aws_ecs_task_definition" "app_task_definition" {
       "networkMode" : "bridge"
     }
   ])
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
-  }
+  # placement_constraints {
+  #   type       = "memberOf"
+  #   expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"
+  # }
 }
 
 resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
+ 
   family = "db_filling_script"
   container_definitions = jsonencode([
     {
@@ -53,16 +54,16 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
       "entryPoint" : [],
       "environment" : [
         {
-          "name" : "AWS_ACCESS_KEY_ID", "value" : "${var.aws_access_key_id}"
+          "name" : "AWS_ACCESS_KEY_ID", "value" : "${var.aws_access_key_id}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
         },
         {
-          "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${var.aws_secret_access_key}"
+          "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${var.aws_secret_access_key}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
         },
         {
-          "name" : "AWS_DEFAULT_REGION", "value" : "${var.aws_default_region}"
+          "name" : "AWS_DEFAULT_REGION", "value" : "${var.aws_default_region}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
         },
         {
-          "name" : "PGPASSWORD", "value" : "${var.db_password}"
+          "name" : "PGPASSWORD", "value" : "${var.db_password}"  #ts:skip=AC-AW-CA-LC-H-0439 need to skip
         }
       ],
       "essential" : true,

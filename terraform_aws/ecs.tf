@@ -9,14 +9,14 @@ resource "aws_ecs_cluster" "app_cluster" {
   }
 }
 
-# resource "aws_ecs_cluster" "db_filling_cluster" {
-#   name = "ECS-DB-Filling-Cluster"
+resource "aws_ecs_cluster" "db_filling_cluster" {
+  name = "ECS-DB-Filling-Cluster"
 
-#   tags = {
-#     Name        = "${var.db_filling_cluster}"
-#     Environment = var.app_environment
-#   }
-# }
+  tags = {
+    Name        = "${var.db_filling_cluster}"
+    Environment = var.app_environment
+  }
+}
 
 resource "aws_ecs_task_definition" "app_task_definition" {
   family = "diploma_project"
@@ -38,9 +38,10 @@ resource "aws_ecs_task_definition" "app_task_definition" {
       "networkMode" : "bridge"
     }
   ])
+
   task_role_arn            = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  
+
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.availability-zone in [${data.aws_availability_zones.available.names[0]}, ${data.aws_availability_zones.available.names[1]}]"

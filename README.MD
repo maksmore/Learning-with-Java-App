@@ -9,8 +9,6 @@ The solution works only in the `us-east-1` region, as it depends on the public r
 
 ## Prerequisites
 
-***
-
 ### Variables
 
 Export your credentials to environment variables.
@@ -30,7 +28,7 @@ By default, the `username` and `password` values for the database have the value
 |`TF_VAR_account_id`|
 |`TF_VAR_email_for_alarm`|
 
-Также, перед запуском, необходимо добавить в секреты значения переменных, значения для `POSTGRES` те же:
+Before running you need also to add variable values to the Github Actions Secrets. The values for `POSTGRES` are the same as written above:
 
 | GitHub Actions Secrets |
 | ------------------------ |
@@ -45,10 +43,12 @@ By default, the `username` and `password` values for the database have the value
 ### Notification
 
 To receive notifications in the Telegram you need to create a bot get a Token and make a request of bot chat ID. Then add these things to Github Actions Secrets:
-> `TELEGRAM_TO`
-> `TELEGRAM_TOKEN`
+| Github Actions Secrets |
+| ---------------------- |
+| `TELEGRAM_TO` |
+| `TELEGRAM_TOKEN` |
 
-[This action](https://github.com/appleboy/telegram-action) was used to implement notifications about CI/CD. 
+[This action](https://github.com/appleboy/telegram-action) was used to implement CI/CD notifications. You can also read the documentation there.
 
 For security reasons, it's also recommended to create a separate *`AWS User`* for GitHub actions and give him full access policy to work only with the required services such as AWS ECS, AWS ECR. Add `AWS_ACCESS_KEY` & `AWS_SECRET_KEY` to the GitHub Actions Secrets to perform ci/cd processes.
 
@@ -59,7 +59,7 @@ To get the data, you need to send a POST request, for example:
 Or if you've already install `jq` you can run the following command and get a sorted result:
 >       curl -s -H "Content-Type: application/json" -X POST -d '{"name": "maintenance"}' https://your_domain/api/v1/specialty | jq '.technologies[].name'
 The application also accepts simple GET requests by command:
->       curl https://your_domain/api/v1/specialty
+>       curl -s https://your_domain/api/v1/specialty
 
 ***
 

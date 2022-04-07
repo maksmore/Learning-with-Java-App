@@ -5,16 +5,6 @@ data "aws_route53_zone" "my_domain" {
   private_zone = false
 }
 
-# data "aws_ecrpublic_authorization_token" "token" {}
-
-# data "aws_ecrpublic_repository" "diploma_service" {
-#   repository_name = var.repository_name[0]
-# }
-
-# data "aws_ecrpublic_repository" "db_filling_service" {
-#   repository_name = var.repository_name[1]
-# }
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -100,16 +90,6 @@ data "aws_db_instance" "db" {
 }
 
 data "aws_sns_topic" "email_incident_topic" {
-  name = "Incident_Alert"
+  name       = "Incident_Alert"
   depends_on = [aws_sns_topic.alarm_topic]
 }
-
-# data "aws_ecr_image" "service_image" {
-#   repository_name = "public.ecr.aws/j1n7b9p6/diploma_project"
-#   image_tag       = "v0.0.1"
-# }
-
-# data "aws_ecr_image" "script_image" {
-#   repository_name = "public.ecr.aws/j1n7b9p6/db_filling_script"
-#   image_tag       = "lastest"
-# }

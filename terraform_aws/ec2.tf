@@ -16,7 +16,7 @@ resource "aws_instance" "db_filling_instance" {
   subnet_id                   = aws_subnet.ec2_subnet[0].id
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   key_name                    = aws_key_pair.pub_key.key_name
-  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=ECS-DB-Filling-Cluster >> /etc/ecs/ecs.config"
+  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=ECS-Regular-Cluster >> /etc/ecs/ecs.config"
   tags = {
     Name = var.db_ec2_name
   }

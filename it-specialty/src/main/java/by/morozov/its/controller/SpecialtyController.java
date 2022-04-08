@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class SpecialtyController {
 
     private final SpecialtyService specialtyService;
-    private static final String INFO = "Welcome to Super Java application!";
+    private static final String INFO = "Welcome to MYYYY Java application!";
 
     @PostMapping
     public Specialty getSpecialtyByName(@RequestBody SpecialtyRequestDto request) {

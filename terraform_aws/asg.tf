@@ -26,7 +26,7 @@ resource "aws_autoscaling_policy" "my_scaling" {
 
 resource "aws_autoscaling_group" "ecs_asg" {
   #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
-  name                 = var.asg_name
+  name                = var.asg_name
   vpc_zone_identifier = [aws_subnet.ec2_subnet[0].id, aws_subnet.ec2_subnet[1].id]
   # vpc_zone_identifier  = [for subnet in aws_subnet.ec2_subnet : subnet.id]
   launch_configuration = aws_launch_configuration.ecs_launch_config.name

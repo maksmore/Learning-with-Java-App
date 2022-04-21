@@ -7,10 +7,6 @@ resource "aws_ecs_cluster" "app_cluster" {
     create_before_destroy = true
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   tags = {
     Name        = "${var.app_name}-ecs"
     Environment = var.app_environment

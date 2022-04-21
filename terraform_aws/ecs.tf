@@ -134,7 +134,6 @@ resource "aws_ecs_service" "db_filling_script" {
   task_definition                    = aws_ecs_task_definition.db_filling_script_task_definition.id
   desired_count                      = 1
   deployment_minimum_healthy_percent = 0
-  deployment_maximum_percent         = 0
 
   placement_constraints {
     type       = "memberOf"

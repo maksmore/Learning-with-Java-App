@@ -13,10 +13,11 @@ resource "aws_instance" "db_filling_instance" {
   instance_type               = "t2.micro"
   iam_instance_profile        = aws_iam_instance_profile.ecs_agent.name
   associate_public_ip_address = true
-  subnet_id                   = aws_subnet.ec2_subnet[0].id
+  subnet_id                   = aws_subnet.ec2_subnet[2].id
+  availability_zone = data.aws_availability_zones.available.names[2]
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   key_name                    = aws_key_pair.pub_key.key_name
-  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=ECS-DB-Filling-Cluster >> /etc/ecs/ecs.config"
+  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=ECS-Regular-Cluster >> /etc/ecs/ecs.config"
   tags = {
     Name = var.db_ec2_name
   }

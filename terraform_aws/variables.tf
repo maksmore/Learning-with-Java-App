@@ -5,14 +5,16 @@ variable "vpc_cidr" {
 variable "ec2_subnet_cidrs" {
   default = [
     "10.2.0.0/24",
-    "10.2.1.0/24"
+    "10.2.1.0/24",
+    "10.2.2.0/24"
   ]
 }
 
 variable "database_subnet_cidrs" {
   default = [
-    "10.2.10.0/24",
-    "10.2.11.0/24"
+    "10.2.20.0/24",
+    "10.2.21.0/24",
+    "10.2.22.0/24"
   ]
 }
 

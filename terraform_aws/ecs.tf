@@ -43,8 +43,8 @@ resource "aws_ecs_task_definition" "app_task_definition" {
     }
   ])
 
-  task_role_arn            = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn      = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
   placement_constraints {
     type       = "memberOf"
@@ -89,7 +89,6 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
   requires_compatibilities = ["EC2"]
   task_role_arn            = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  
 
   placement_constraints {
     type       = "memberOf"
@@ -103,14 +102,14 @@ resource "aws_ecs_service" "diploma" {
   task_definition                    = aws_ecs_task_definition.app_task_definition.id
   force_new_deployment               = true
   desired_count                      = 2
-  deployment_maximum_percent         = 200
-  deployment_minimum_healthy_percent = 100
+  deployment_maximum_percent         = 100
+  deployment_minimum_healthy_percent = 50
   scheduling_strategy                = "REPLICA"
-  
-  ordered_placement_strategy {
-    type = "spread"
-    field = "instanceId"
-  }
+
+  # ordered_placement_strategy {
+  #   type = "spread"
+  #   field = "instanceId"
+  # }
 
   placement_constraints {
     type       = "memberOf"
@@ -130,15 +129,15 @@ resource "aws_ecs_service" "diploma" {
 }
 
 resource "aws_ecs_service" "db_filling_script" {
-  name            = "db_filling_script"
-  cluster         = aws_ecs_cluster.app_cluster.id
-  task_definition = aws_ecs_task_definition.db_filling_script_task_definition.id
-  desired_count   = 1
+  name                               = "db_filling_script"
+  cluster                            = aws_ecs_cluster.app_cluster.id
+  task_definition                    = aws_ecs_task_definition.db_filling_script_task_definition.id
+  desired_count                      = 1
+  deployment_minimum_healthy_percent = 0
 
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.instance-type =~ t2.micro and attribute:ecs.availability-zone == ${data.aws_availability_zones.available.names[2]}"
   }
-
   depends_on = [aws_db_instance.postgres_rds]
 }

@@ -2,6 +2,10 @@
 
 resource "aws_ecs_cluster" "app_cluster" {
   name = "ECS-Regular-Cluster"
+  
+  lifecycle {
+    create_before_destroy = true
+  }
 
   lifecycle {
     create_before_destroy = true
@@ -125,7 +129,7 @@ resource "aws_ecs_service" "diploma" {
     container_name   = "diploma-container"
     container_port   = 8083
   }
-  depends_on = [aws_db_instance.postgres_rds]
+  depends_on = [aws_ecs_service.db_filling_script]
 }
 
 resource "aws_ecs_service" "db_filling_script" {

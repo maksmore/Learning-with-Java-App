@@ -5,10 +5,10 @@ env:
   APP_VERSION:         "v0.0.1"
   IMAGE_NAME:          "diploma_project"
   ECR_REPOSITORY:      "diploma_project"
-  ECS_SERVICE:         "diploma_project"
+  ECS_SERVICE:         "tms_project"
   ECS_CLUSTER:         "ECS-Regular-Cluster"
   ECS_TASK_DEFINITION: "./it-specialty/task_definition.json"
-  CONTAINER_NAME:      "diploma-container"
+  CONTAINER_NAME:      "app-container"
 
 on:
   pull_request:

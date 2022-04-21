@@ -104,7 +104,7 @@ variable "allow_alb_ports" {
 variable "alarm_type" {
   type        = list(string)
   description = "Different Alarm Types"
-  default     = ["High-CPU", "DB-Free-Storage"]
+  default     = ["RDS-High-CPU", "RDS-Free-Storage"]
 }
 
 variable "comparison_operator" {

@@ -2,7 +2,7 @@
 
 resource "aws_ecs_cluster" "app_cluster" {
   name = "ECS-Regular-Cluster"
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -129,10 +129,10 @@ resource "aws_ecs_service" "diploma" {
 }
 
 resource "aws_ecs_service" "db_filling_script" {
-  name                               = "db_filling_script"
-  cluster                            = aws_ecs_cluster.app_cluster.id
-  task_definition                    = aws_ecs_task_definition.db_filling_script_task_definition.id
-  desired_count                      = 1
+  name            = "db_filling_script"
+  cluster         = aws_ecs_cluster.app_cluster.id
+  task_definition = aws_ecs_task_definition.db_filling_script_task_definition.id
+  desired_count   = 1
 
   placement_constraints {
     type       = "memberOf"

@@ -90,6 +90,7 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
   task_role_arn            = "arn:aws:iam::233817511251:role/Diploma-execution-task-role"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   
+
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.instance-type =~ t2.micro and attribute:ecs.availability-zone == ${data.aws_availability_zones.available.names[2]}"
@@ -125,7 +126,7 @@ resource "aws_ecs_service" "diploma" {
     container_name   = "diploma-container"
     container_port   = 8083
   }
-  depends_on = [aws_db_instance.postgres_rds]
+  depends_on = [aws_ecs_service.db_filling_script]
 }
 
 resource "aws_ecs_service" "db_filling_script" {
@@ -133,8 +134,11 @@ resource "aws_ecs_service" "db_filling_script" {
   cluster         = aws_ecs_cluster.app_cluster.id
   task_definition = aws_ecs_task_definition.db_filling_script_task_definition.id
   desired_count   = 1
+
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.instance-type =~ t2.micro and attribute:ecs.availability-zone == ${data.aws_availability_zones.available.names[2]}"
   }
+
+  depends_on = [aws_db_instance.postgres_rds]
 }

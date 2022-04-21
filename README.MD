@@ -64,6 +64,6 @@ The application also accepts simple GET requests by command:
 ***
 
 **Status of Last App Deployment:**<br>
-<img src="https://github.com/maksmore/Learning-with-Java-App/workflows/Docker-Image-CD/badge.svg?branch=master"><br>
+<img src="https://github.com/maksmore/Learning-with-TeachMeSkills/workflows/Docker-Image-CD/badge.svg?branch=master"><br>
 
 Developed by *maksmore*

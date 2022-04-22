@@ -14,7 +14,7 @@ resource "aws_ecs_cluster" "app_cluster" {
 }
 
 resource "aws_ecs_task_definition" "app_task_definition" {
-  family = "diploma_project"
+  family = "tms_project"
   container_definitions = jsonencode([
     {
       "name" : "app-container",
@@ -87,8 +87,8 @@ resource "aws_ecs_task_definition" "db_filling_script_task_definition" {
   }
 }
 
-resource "aws_ecs_service" "diploma" {
-  name                               = "diploma_project"
+resource "aws_ecs_service" "tms" {
+  name                               = "tms_project"
   cluster                            = aws_ecs_cluster.app_cluster.id
   task_definition                    = aws_ecs_task_definition.app_task_definition.id
   force_new_deployment               = true

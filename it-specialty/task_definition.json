@@ -28,7 +28,7 @@
             "memory": 256,
             "volumesFrom": null,
             "stopTimeout": null,
-            "image": "233817511251.dkr.ecr.eu-west-1.amazonaws.com/diploma:v0.0.1",
+            "image": "public.ecr.aws/j1n7b9p6/diploma_project:v0.0.1",
             "startTimeout": null,
             "firelensConfiguration": null,
             "dependsOn": null,
@@ -54,7 +54,7 @@
     "placementConstraints": [
         {
             "type": "memberOf",
-            "expression": "attribute:ecs.availability-zone in [eu-west-1a, eu-west-1b]"
+            "expression": "attribute:ecs.availability-zone in [us-east-1a, us-east-1b]"
         }
     ],
     "memory": null,

@@ -5,7 +5,7 @@ The application solves the task of obtaining the necessary skills for IT special
 * `maintenance`
 * `developer`
 
-The solution works only in the `us-east-1` region, as it depends on the public repository where the required images are stored.
+The solution works only in the `us-east-1` region because of it hardcode.
 
 ## Prerequisites
 

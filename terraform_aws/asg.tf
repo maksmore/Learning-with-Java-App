@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   security_groups      = [aws_security_group.ec2_sg.id]
   user_data            = file("cw_agent.sh")
   instance_type        = "t2.micro"
-  key_name             = aws_key_pair.pub_key.key_name
+  # key_name             = aws_key_pair.pub_key.key_name
 
   lifecycle {
     create_before_destroy = true
@@ -28,7 +28,6 @@ resource "aws_autoscaling_group" "ecs_asg" {
   #ts:skip=AC-AW-CA-LC-H-0439 need to skip it
   name                = var.asg_name
   vpc_zone_identifier = [aws_subnet.ec2_subnet[0].id, aws_subnet.ec2_subnet[1].id]
-  # vpc_zone_identifier  = [for subnet in aws_subnet.ec2_subnet : subnet.id]
   launch_configuration = aws_launch_configuration.ecs_launch_config.name
   target_group_arns    = [aws_lb_target_group.app_tg.arn]
 
@@ -38,7 +37,6 @@ resource "aws_autoscaling_group" "ecs_asg" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
 
-  depends_on = [aws_ecs_service.db_filling_script, aws_instance.db_filling_instance]
 
   dynamic "tag" {
     for_each = {

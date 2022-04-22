@@ -33,9 +33,9 @@ resource "aws_security_group" "ec2_sg" {
       "5432" = {
         security_groups = [aws_security_group.db_sg.id]
       }
-      "22" = {
-        cidr_blocks = ["0.0.0.0/0"]
-      }
+      # "22" = {
+      #   cidr_blocks = ["0.0.0.0/0"]
+      # }
       "all" = {
         security_groups = [aws_security_group.alb_sg.id]
         from_port       = 0

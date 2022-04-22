@@ -13,20 +13,11 @@ resource "aws_ecs_cluster" "app_cluster" {
   }
 }
 
-# resource "aws_ecs_cluster" "db_filling_cluster" {
-#   name = "ECS-DB-Filling-Cluster"
-
-#   tags = {
-#     Name        = "${var.db_filling_cluster}"
-#     Environment = var.app_environment
-#   }
-# }
-
 resource "aws_ecs_task_definition" "app_task_definition" {
   family = "diploma_project"
   container_definitions = jsonencode([
     {
-      "name" : "diploma-container",
+      "name" : "app-container",
       "image" : "public.ecr.aws/j1n7b9p6/diploma_project:v0.0.1",
       "entryPoint" : [],
       "environment" : [],
@@ -102,14 +93,14 @@ resource "aws_ecs_service" "diploma" {
   task_definition                    = aws_ecs_task_definition.app_task_definition.id
   force_new_deployment               = true
   desired_count                      = 2
-  deployment_maximum_percent         = 100
-  deployment_minimum_healthy_percent = 50
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
   scheduling_strategy                = "REPLICA"
 
-  # ordered_placement_strategy {
-  #   type = "spread"
-  #   field = "instanceId"
-  # }
+  ordered_placement_strategy {
+    type = "spread"
+    field = "instanceId"
+  }
 
   placement_constraints {
     type       = "memberOf"
@@ -122,7 +113,7 @@ resource "aws_ecs_service" "diploma" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.app_tg.arn
-    container_name   = "diploma-container"
+    container_name   = "app-container"
     container_port   = 8083
   }
   depends_on = [aws_ecs_service.db_filling_script]

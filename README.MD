@@ -63,7 +63,8 @@ The application also accepts simple GET requests by command:
 
 ***
 
-**Status of Last App Deployment:**<br>
-<img src="https://github.com/maksmore/Learning-with-TeachMeSkills/workflows/Docker-Image-CD/badge.svg?branch=master"><br>
+**Status of Last App Deployment:**
+
+![cd workflow](https://github.com/maksmore/Learning-with-TeachMeSkills/actions/workflows/cd.yml/badge.svg)
 
 Developed by *maksmore*

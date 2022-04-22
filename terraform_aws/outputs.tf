@@ -3,14 +3,6 @@ output "postgres_endpoint" {
   value = aws_db_instance.postgres_rds.endpoint
 }
 
-# output "aws_ecr_diploma_image" {
-#   value = data.aws_ecr_image.diploma_service
-# }
-
-# output "aws_ecr_db_filling_image" {
-#   value = data.aws_ecr_image.db_filling_service
-# }
-
 output "first_instance_id" {
   value = data.aws_instances.first_instance_id.ids[0]
 }
@@ -46,6 +38,3 @@ output "private_dns_name_first" {
 output "private_dns_name_second" {
   value = data.aws_instance.second_instance_dns.private_dns
 }
-# output "image_source" {
-#   value = data.aws_ecr_image.service_image
-# }

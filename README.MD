@@ -65,7 +65,7 @@ The application also accepts simple GET requests by command:
 
 **Status of Last App Deployment:**
 
-![cd workflow](https://github.com/maksmore/Learning-with-TeachMeSkills/actions/workflows/cd.yml/badge.svg)
-![ci workflow](https://github.com/maksmore/Learning-with-TeachMeSkills/actions/workflows/ci.yml/badge.svg)
+![cd workflow](https://github.com/maksmore/Learning-with-TeachMeSkills/actions/workflows/cd.yml/badge.svg)  
+![ci workflow](https://github.com/maksmore/Learning-with-TeachMeSkills/actions/workflows/ci.yml/badge.svg)  
 
 Developed by *maksmore*

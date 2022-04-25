@@ -26,6 +26,7 @@ jobs:
       uses: github/super-linter/slim@v4
       env:
         # Main settings
+        image: docker://ghcr.io/github/super-linter:slim-latest
         DEFAULT_BRANCH: master
         VALIDATE_ALL_CODEBASE: false
         FILTER_REGEX_EXCLUDE: (\.github.*|.*inventory.ya?ml|.*docker-compose.ya?ml)

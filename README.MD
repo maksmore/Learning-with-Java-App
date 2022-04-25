@@ -1,5 +1,7 @@
 # This repository is designed to deploy infrastructure in AWS from scratch
 
+The project was developed as a degree project at the end of the [TeachMeSkills](https://teachmeskills.by/kursy-programmirovaniya/kursy-dev-ops-online?utm_source=google&utm_medium=cpc&utm_campaign=s_devops&utm_content=ad1&utm_term=%2Bdevops%20%2B%D0%BA%D1%83%D1%80%D1%81%D1%8B&roistat=google4_g_102404084552_439370431586_%2Bdevops%20%2B%D0%BA%D1%83%D1%80%D1%81%D1%8B&roistat_referrer=&roistat_pos=&gclid=CjwKCAiAp8iMBhAqEiwAJb94z_rbVRBa8hSMzZPK6v6K0gGnbP1A5UFcDoZVxw4qoLg8WwdZh7hTChoCPY8QAvD_BwE) course.  
+
 The application solves the task of obtaining the necessary skills for IT specialists of different directions, currently 2 options are available:
 
 * `maintenance`
@@ -12,7 +14,7 @@ The solution works only in the `us-east-1` region because of it's hardcode.
 ### Variables
 
 Export your credentials to environment variables.
-By default, the `username` and `password` values for the database have the values `postgres` and `password`, respectively. For your own purposes, this value can be changed in *`it-specialty/src/main/java/by/morozov/its/controller/SpecialtyController.java`*
+By default, the `username` and `password` values for the database have the values `postgres` and `password`, respectively. You also need to specify the unique name of your AWS RDS database. For your own purposes, this value can be changed in *`it-specialty/src/main/java/by/morozov/its/controller/SpecialtyController.java`*
 
 **Requirements:**  
 | Environment variables |
